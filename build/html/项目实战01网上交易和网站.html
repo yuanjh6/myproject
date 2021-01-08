@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>项目实战01网上交易和网站 &mdash; 我的项目 v1.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="项目实战02微信支付宝服务号对接" href="项目实战02微信支付宝服务号对接.html" />
+    <link rel="prev" title="Welcome to 我的项目’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> 我的项目
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">项目实战01网上交易和网站</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">动静分离</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#http">http长连接</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">负载均衡</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">网页静态化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cdn">cdn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">净值监控</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#informatic">informatic同步</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">乐观锁</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">数据库结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#session">session共享</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">日志留存</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">安全</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">抢红包抽奖</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="项目实战02微信支付宝服务号对接.html">项目实战02微信支付宝服务号对接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="项目实战03第三方接口对接之注意事项.html">项目实战03第三方接口对接之注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="项目实战04请求幂等性.html">项目实战04请求幂等性</a></li>
+<li class="toctree-l1"><a class="reference internal" href="项目实战05大客户定制相关技术.html">项目实战05大客户定制相关技术</a></li>
+<li class="toctree-l1"><a class="reference internal" href="项目实战07线上问题定位之自上而下.html">项目实战07线上问题定位之自上而下</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">我的项目</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>项目实战01网上交易和网站</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/项目实战01网上交易和网站.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>项目实战01网上交易和网站<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>网站相关技术点简单说明</p>
+<div class="section" id="id2">
+<h2>动静分离<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>基本属于网站必备配置了。web服务器第一层一般都是nginx，nginx三大核心功能（动静分离，负载均衡，多站点反代）之一就是动静分离 。典型配置是</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">listen</span>       <span class="mi">443</span> <span class="n">ssl</span><span class="p">;</span>
+<span class="n">server_name</span>  <span class="n">nav</span><span class="o">.</span><span class="n">xxxx</span><span class="o">.</span><span class="n">cn</span><span class="p">;</span>
+
+<span class="n">root</span>         <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">xxx</span><span class="o">/</span><span class="n">WebStackPage</span><span class="o">/</span><span class="p">;</span> <span class="n">存放静态文件的文件夹</span>
+</pre></div>
+</div>
+<p>长这样的基本就是文件服务器对应的文件夹了。</p>
+</div>
+<div class="section" id="http">
+<h2>http长连接<a class="headerlink" href="#http" title="永久链接至标题">¶</a></h2>
+<p>由于http请求资源（html，图片，js，css）较多，可开启http长连接，这个nginx中也有了，开启即可。</p>
+</div>
+<div class="section" id="id3">
+<h2>负载均衡<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>一般服务器都是多组（主要是应用服务器，中小型公司静态文件服务器使用一组nginx就足够了，毕竟前面还有一层cdn挡掉了大部分请求）。这也是nginx的三大核心功能之一，典型配置</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">upstream</span> <span class="n">nav</span><span class="p">{</span>
+        <span class="n">server</span> <span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8081</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>这里还可以指定权重和分发策略（我只用过基础等权分发，复杂的没试过，理论上不难，毕竟nginx都已经烂大街的成熟了）。</p>
+</div>
+<div class="section" id="id4">
+<h2>网页静态化<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>我们主要是通过建立数据表，保存jsp和html映射关系，<strong>然后jsp中写函数，进行转化</strong>，将jsp转为相应的html，用户看到的连接已经变成了html页面。另外还有个<strong>扫表程序，将jsp固化为html页面</strong>，这是相对落后的技术了（虽然落后，但却简单，稳定，好用，伴随着网站十多年了）。</p>
+<p>最新的版本已经改为spring-mvc架构了，没有jsp页面了。只留下个别页面（基金净值等高频访问且复杂查询的页面）做了静态化。</p>
+<p>需要特殊留意的是目前大多数网站都使用了cdn，<strong>html会被cdn缓存导致用户取不到最新页面</strong>，可以通过cdn中配置刷新策略进行规避。</p>
+</div>
+<div class="section" id="cdn">
+<h2>cdn<a class="headerlink" href="#cdn" title="永久链接至标题">¶</a></h2>
+<p>这个不在赘述了，简单，好用，尤其是目前大多服务器都部署在云主机上。阿里云腾讯云等都集成cdn服务，只要使用其主机就可以很方便的部署上去，不需要自行购置机房建立cdn服务器。</p>
+<p>唯一需要留意的是cdn底层使用dns解析，<strong>不同地域解析到不同ip的主机</strong>，所以配置的<strong>子域名指向必须是dns服务提供方的</strong>。如果子域名还有子子域名，则无法实现（因为子域名解析到dns服务器后，子子域名隶属于子域名，也就同时超出我们的配置范畴了）</p>
+<p>比如：helo.wangerxiao.cn的个人博客，启用了cdn，那么其域名解析列表必然有一项</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">helo</span><span class="o">.</span><span class="n">wangerxiao</span><span class="o">.</span><span class="n">cn</span><span class="p">(</span><span class="n">cname</span><span class="p">)</span><span class="o">=&gt;</span><span class="n">xxx</span><span class="o">.</span><span class="n">dns</span><span class="o">.</span><span class="n">tencent</span><span class="o">.</span><span class="n">com</span>  
+</pre></div>
+</div>
+<p>如果我们想使用域名nihao.helo.wangerxiao.cn做其他用途，则是不可行的。</p>
+</div>
+<div class="section" id="id5">
+<h2>净值监控<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>每天开市前都要保证次日净值更新完成（一般当晚12点前就应该完成了），如果超过这个时间，会发短信，微信，或email进行通知。本身就是一个简单爬虫，后台对接了公司内部监控平台，返回的code-msg会被监控平台做简答判定后，按照配置的提现方式进行消息推送。</p>
+</div>
+<div class="section" id="informatic">
+<h2>informatic同步<a class="headerlink" href="#informatic" title="永久链接至标题">¶</a></h2>
+<p>跨数据库数据同步方式，比如净值信息是IA核算的，同步给TA和我们，就是通过informatic的同步功能进行的（视图=》表）。细节不清楚，并非我们工作内容，只是知道。</p>
+</div>
+<div class="section" id="id6">
+<h2>乐观锁<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<p>主要是直销会涉及用户份额和金额的一些计算，有些使用了悲观锁（for update），有些是乐观锁。</p>
+<p>悲观锁还算常见，乐观锁我还是第一次见到。其实乐观锁并不是真实的锁，而是达到锁效果的操作方式。</p>
+<p>比如：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">=</span><span class="n">select</span> <span class="n">amout</span> <span class="kn">from</span> <span class="nn">table01</span> <span class="n">where</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;john&#39;</span>  
+<span class="n">old_a</span><span class="o">=</span><span class="n">a</span>
+<span class="n">a</span><span class="o">++</span>
+<span class="n">a</span><span class="o">--</span>
+<span class="n">a</span><span class="o">*=</span>
+<span class="n">a</span><span class="o">/=</span>
+<span class="n">new_a</span><span class="o">=</span><span class="n">a</span>
+<span class="n">一系列计算后</span><span class="p">,</span><span class="n">执行</span>
+<span class="n">update</span>  <span class="n">table01</span> <span class="n">amout</span><span class="o">=</span><span class="n">new_a</span> <span class="n">where</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;john&#39;</span> <span class="ow">and</span> <span class="n">a</span><span class="o">=</span> <span class="n">old_a</span>  
+</pre></div>
+</div>
+<p>这个就称为乐观锁，如果update失败呢？（返回0条）。</p>
+<p>第一种可能：如果old_a=new_a,这时说明业务正常，继续执行就是了。</p>
+<p>第二种可能：如果old_a！=new_a（所以此时应该update返回1条结果）但是未返回更新，说明条件中的where  a= old_a 条件以及不再成立，也就是说期间 a被别人改过，所以此时应该报错，将整个事务回滚。</p>
+<p>这波操作真的溜！！</p>
+</div>
+<div class="section" id="id7">
+<h2>数据库结构<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<p>主备结构。</p>
+<p>目前互联网领域大多<strong>主从模式+读写分离</strong>。但是对于基金公司这种并不面临高并发问题，且对<strong>安全性尤为重视的行业</strong>来讲。主从模式一般实在cap中选择ap（保持可用+分区容错），牺牲c（一致性）。但对金融来讲，<strong>C基本是必选项目</strong>，基于C上，如果采用多库，写入只可能更慢（多库同时确认写入成功才会认为真正成功），所以倒不如直接使用单点库。而且金融公司很多都是使用<strong>存过来保证业务的严谨性和正确性</strong>，使用多数据库这会引发其他一系列复杂问题，依赖金融公司的技术实力解决这种较偏的问题显然不大合适（和互联网不同，对金融公司来讲，IT只是辅助，并不指望去领导IT技术革新）。</p>
+<p>采用主备结构也是基于基金行业协会的要求（最少得有一个异地备份，多了人家也不限制），为了避免一些地震或者战争等造成数据丢失所做的严谨要求，一般都是热同步+异地备份（北京+深圳+上海等）。</p>
+</div>
+<div class="section" id="session">
+<h2>session共享<a class="headerlink" href="#session" title="永久链接至标题">¶</a></h2>
+<p>使用redis+spring集成套件即可，配置下就能直接使用。</p>
+<p>主要是避免用户被转发到其他主机上后，丢失登录信息，还需要重新登录的问题。也算是主流操作吧（如无特殊要求，随大流就对了，方便，坑少，效率高）。</p>
+</div>
+<div class="section" id="id8">
+<h2>日志留存<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h2>
+<p>100M滚动，长期留存的。</p>
+<p>交易历史数据好像是10年，国家法律规定的，据说是查反洗钱的。</p>
+</div>
+<div class="section" id="id9">
+<h2>安全<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<p>花钱请专业公司扫漏洞，扫完按照漏洞清单后我们修补，大多是软件版本，旧版有漏洞，升级新版。还有些是弱口令问题或者admin页面路径问题。</p>
+<p>由于公司业务简单，况且也不大可能有人敢攻击基金公司站点（搞不定白费劲，搞定了蹲牢房，^_^），所以还没遇到过被恶意攻击的情况。</p>
+</div>
+<div class="section" id="id10">
+<h2>抢红包抽奖<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h2>
+<p>用过redis第一层限制+存储过程最终控制，即使抢红包抽奖，整体并发量也不大，不需要复杂技术也能搞定。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="项目实战02微信支付宝服务号对接.html" class="btn btn-neutral float-right" title="项目实战02微信支付宝服务号对接" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to 我的项目’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2021, yuanjh.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

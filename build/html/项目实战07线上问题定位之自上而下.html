@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>项目实战07线上问题定位之自上而下 &mdash; 我的项目 v1.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="prev" title="项目实战05大客户定制相关技术" href="项目实战05大客户定制相关技术.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> 我的项目
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="项目实战01网上交易和网站.html">项目实战01网上交易和网站</a></li>
+<li class="toctree-l1"><a class="reference internal" href="项目实战02微信支付宝服务号对接.html">项目实战02微信支付宝服务号对接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="项目实战03第三方接口对接之注意事项.html">项目实战03第三方接口对接之注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="项目实战04请求幂等性.html">项目实战04请求幂等性</a></li>
+<li class="toctree-l1"><a class="reference internal" href="项目实战05大客户定制相关技术.html">项目实战05大客户定制相关技术</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">项目实战07线上问题定位之自上而下</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">查看进程下线程和资源占用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">程序状态字段解释</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">查看各进程下的线程数情况</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cpu">查看cpu使用率告警问题处理案例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">程序卡主跟踪</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">参考</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">我的项目</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>项目实战07线上问题定位之自上而下</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/项目实战07线上问题定位之自上而下.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>项目实战07线上问题定位之自上而下<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>查看进程下线程和资源占用<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">使用ls</span> <span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="n">pid</span><span class="o">/</span><span class="n">task</span><span class="o">/</span> <span class="n">查看线程</span>
+<span class="n">使用ps</span> <span class="o">-</span><span class="n">eLf命令</span><span class="o">/</span><span class="n">ps</span> <span class="n">aux</span> <span class="o">-</span><span class="n">L</span><span class="o">/</span><span class="n">ps</span> <span class="n">aux</span> <span class="o">-</span><span class="n">el</span>
+<span class="n">使用pstree</span> 
+</pre></div>
+</div>
+<p>查看线程数量</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="mi">19135</span><span class="o">/</span><span class="n">status</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">Threads</span>
+<span class="n">pstree</span> <span class="o">-</span><span class="n">p</span> <span class="mi">19135</span><span class="o">|</span><span class="n">wc</span> <span class="o">-</span><span class="n">l</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>程序状态字段解释<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>D    Uninterruptible sleep (usually IO) 不可中断睡眠</p>
+<p>R    Running or runnable (on run queue) 正在执行或可执行，表示目前在运行队列里面</p>
+<p>S    Interruptible sleep (waiting for an event to complete) 可中断睡眠</p>
+<p>T    Stopped, either by a job control signal or because it is being traced.停止</p>
+<p>W    paging (not valid since the 2.6.xx kernel)</p>
+<p>X    dead (should never be seen)</p>
+<p>Z    Defunct (“zombie”) process, terminated but not reaped by its parent.僵尸进程</p>
+</div>
+<div class="section" id="id4">
+<h2>查看各进程下的线程数情况<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>比如某台服务器的CPU使用率飙升，通过top命令查看是gitlab程序占用的cpu比较大，”ps -ef|grep gitlab”发现有很多个gitlab程序，现在需要查询gitlab各个进程下的线程数情况。批量查询命令如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># for pid in $(ps -ef|grep -v grep|grep gitlab|awk &#39;{print $2}&#39;);do echo ${pid} &gt; /root/a.txt ;cat /proc/${pid}/status|grep Threads &gt; /root/b.txt;paste /root/a.txt /root/b.txt;done|sort -k3 -rn</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cpu">
+<h2>查看cpu使用率告警问题处理案例<a class="headerlink" href="#cpu" title="永久链接至标题">¶</a></h2>
+<p>查出这个pid进程的cpu资源各自被哪个线程所占。通过”top -Hp pid”可以查看该进程下各个线程的cpu使用情况；如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@kevin</span> <span class="o">~</span><span class="p">]</span><span class="c1"># top -Hp 31969</span>
+<span class="c1"># 另方式查看子线程：ps -Lf 31969</span>
+</pre></div>
+</div>
+<p>通过top命令定位到cpu占用率较高的线程之后，继续使用jstack pid命令查看当前java进程的堆栈状态，这就用到jstack工具！
+jstack是java虚拟机自带的一种堆栈跟踪工具。jstack用于打印出给定的java进程ID或core file或远程调试服务的Java堆栈信息。
+jstack可以定位到线程堆栈，根据堆栈信息我们可以定位到具体代码，所以它在JVM性能调优中使用得非常多。</p>
+</div>
+<div class="section" id="id5">
+<h2>程序卡主跟踪<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>继续用strace -p 27678跟踪，发现卡在read，文件描述符是14</p>
+<p><img alt="_images/20200818195829434_1317361953.png" src="_images/20200818195829434_1317361953.png" /></p>
+<p>现在我们查看一下进程打开的文件描述符14代表什么，pipe文件</p>
+<p><img alt="_images/20200818195839551_474894393.png" src="_images/20200818195839551_474894393.png" /></p>
+<p>其实在这里我们也可以使用lsof来定位，可以看到进程27678打开的FD 14是pipe，这里u代表可读可写，r代表可读</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sangfor</span> <span class="o">~</span> <span class="c1"># lsof -d 14</span>
+<span class="n">COMMAND</span>     <span class="n">PID</span> <span class="n">USER</span>   <span class="n">FD</span>   <span class="n">TYPE</span>             <span class="n">DEVICE</span> <span class="n">SIZE</span><span class="o">/</span><span class="n">OFF</span>     <span class="n">NODE</span> <span class="n">NAME</span>
+<span class="n">mongod</span>     <span class="mi">1907</span> <span class="n">root</span>   <span class="mi">14</span><span class="n">u</span>   <span class="n">REG</span>              <span class="mi">251</span><span class="p">,</span><span class="mi">0</span>    <span class="mi">36864</span>   <span class="mi">130683</span> <span class="o">/</span><span class="n">wns</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">mongodb</span><span class="o">/</span><span class="n">db</span><span class="o">/</span><span class="n">collection</span><span class="o">-</span><span class="mi">7</span><span class="o">--</span><span class="mf">588642557116981989.</span><span class="n">wt</span>
+<span class="n">syslog</span><span class="o">-</span><span class="n">ng</span>  <span class="mi">3446</span> <span class="n">root</span>   <span class="mi">14</span><span class="n">u</span>  <span class="n">unix</span> <span class="mh">0xffff88012227d800</span>      <span class="mi">0</span><span class="n">t0</span> <span class="mi">40557736</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">log</span>
+<span class="n">dockerd</span>    <span class="mi">4025</span> <span class="n">root</span>   <span class="mi">14</span><span class="n">u</span>  <span class="n">unix</span> <span class="mh">0xffff8800b8d5d800</span>      <span class="mi">0</span><span class="n">t0</span>    <span class="mi">13941</span> <span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">docker</span><span class="o">/</span><span class="n">libnetwork</span><span class="o">/</span><span class="n">a73bd949b5fbb89c2b8bec3b4ac6af0a948a944958c8b037d9e6c9b324b44331</span><span class="o">.</span><span class="n">sock</span>
+<span class="n">docker</span><span class="o">-</span><span class="n">co</span>  <span class="mi">9382</span> <span class="n">root</span>   <span class="mi">14</span><span class="n">u</span>  <span class="mi">0000</span>                <span class="mi">0</span><span class="p">,</span><span class="mi">9</span>        <span class="mi">0</span>     <span class="mi">9553</span> <span class="n">anon_inode</span>
+<span class="n">docker</span><span class="o">-</span><span class="n">co</span> <span class="mi">21204</span> <span class="n">root</span>   <span class="mi">14</span><span class="n">u</span>  <span class="mi">0000</span>                <span class="mi">0</span><span class="p">,</span><span class="mi">9</span>        <span class="mi">0</span>     <span class="mi">9553</span> <span class="n">anon_inode</span>
+<span class="n">python</span>    <span class="mi">27678</span> <span class="n">root</span>   <span class="mi">14</span><span class="n">r</span>  <span class="n">FIFO</span>                <span class="mi">0</span><span class="p">,</span><span class="mi">8</span>      <span class="mi">0</span><span class="n">t0</span> <span class="mi">38483750</span> <span class="n">pipe</span>
+</pre></div>
+</div>
+<p>也可以直接查看进程27678打开的，可以看到14是pipe</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sangfor</span> <span class="o">~</span> <span class="c1"># lsof -p 27678</span>
+<span class="n">COMMAND</span>   <span class="n">PID</span> <span class="n">USER</span>   <span class="n">FD</span>   <span class="n">TYPE</span>             <span class="n">DEVICE</span> <span class="n">SIZE</span><span class="o">/</span><span class="n">OFF</span>     <span class="n">NODE</span> <span class="n">NAME</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>    <span class="mi">0</span><span class="n">r</span>  <span class="n">FIFO</span>                <span class="mi">0</span><span class="p">,</span><span class="mi">8</span>      <span class="mi">0</span><span class="n">t0</span> <span class="mi">30690124</span> <span class="n">pipe</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>    <span class="mi">1</span><span class="n">w</span>  <span class="n">FIFO</span>                <span class="mi">0</span><span class="p">,</span><span class="mi">8</span>      <span class="mi">0</span><span class="n">t0</span> <span class="mi">30690125</span> <span class="n">pipe</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>    <span class="mi">2</span><span class="n">w</span>  <span class="n">FIFO</span>                <span class="mi">0</span><span class="p">,</span><span class="mi">8</span>      <span class="mi">0</span><span class="n">t0</span> <span class="mi">30690126</span> <span class="n">pipe</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>    <span class="mi">3</span><span class="n">u</span>  <span class="mi">0000</span>                <span class="mi">0</span><span class="p">,</span><span class="mi">9</span>        <span class="mi">0</span>     <span class="mi">9553</span> <span class="n">anon_inode</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>    <span class="mi">4</span><span class="n">u</span>  <span class="mi">0000</span>                <span class="mi">0</span><span class="p">,</span><span class="mi">9</span>        <span class="mi">0</span>     <span class="mi">9553</span> <span class="n">anon_inode</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>    <span class="mi">5</span><span class="n">u</span>  <span class="n">pack</span>           <span class="mi">30691718</span>      <span class="mi">0</span><span class="n">t0</span>  <span class="n">unknown</span> <span class="nb">type</span><span class="o">=</span><span class="n">SOCK_RAW</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>    <span class="mi">6</span><span class="n">w</span>   <span class="n">REG</span>              <span class="mi">251</span><span class="p">,</span><span class="mi">0</span> <span class="mi">76106652</span>   <span class="mi">130565</span> <span class="o">/</span><span class="n">wns</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">com_host</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">err</span><span class="o">.</span><span class="n">log</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>    <span class="mi">7</span><span class="n">u</span>  <span class="n">IPv4</span>           <span class="mi">30691716</span>      <span class="mi">0</span><span class="n">t0</span>      <span class="n">TCP</span> <span class="n">Sangfor</span><span class="p">:</span><span class="mi">53102</span><span class="o">-&gt;</span><span class="n">Sangfor</span><span class="p">:</span><span class="mi">42457</span> <span class="p">(</span><span class="n">ESTABLISHED</span><span class="p">)</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>    <span class="mi">8</span><span class="n">u</span>  <span class="n">IPv4</span>           <span class="mi">30691717</span>      <span class="mi">0</span><span class="n">t0</span>      <span class="n">TCP</span> <span class="n">Sangfor</span><span class="p">:</span><span class="mi">42457</span><span class="o">-&gt;</span><span class="n">Sangfor</span><span class="p">:</span><span class="mi">53102</span> <span class="p">(</span><span class="n">ESTABLISHED</span><span class="p">)</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>    <span class="mi">9</span><span class="n">u</span>  <span class="n">IPv4</span>           <span class="mi">30691731</span>      <span class="mi">0</span><span class="n">t0</span>      <span class="n">TCP</span> <span class="n">db</span><span class="o">.</span><span class="n">sdwan</span><span class="p">:</span><span class="mi">54072</span><span class="o">-&gt;</span><span class="n">sdwan</span><span class="o">.</span><span class="n">io</span><span class="p">:</span><span class="mi">27017</span> <span class="p">(</span><span class="n">ESTABLISHED</span><span class="p">)</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>   <span class="mi">10</span><span class="n">u</span>  <span class="n">IPv4</span>           <span class="mi">30691732</span>      <span class="mi">0</span><span class="n">t0</span>      <span class="n">TCP</span> <span class="n">db</span><span class="o">.</span><span class="n">sdwan</span><span class="p">:</span><span class="mi">54074</span><span class="o">-&gt;</span><span class="n">sdwan</span><span class="o">.</span><span class="n">io</span><span class="p">:</span><span class="mi">27017</span> <span class="p">(</span><span class="n">ESTABLISHED</span><span class="p">)</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>   <span class="mi">11</span><span class="n">r</span>   <span class="n">CHR</span>                <span class="mi">1</span><span class="p">,</span><span class="mi">9</span>      <span class="mi">0</span><span class="n">t0</span> <span class="mi">30690329</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">urandom</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>   <span class="mi">12</span><span class="n">u</span>  <span class="n">IPv4</span>           <span class="mi">30719611</span>      <span class="mi">0</span><span class="n">t0</span>      <span class="n">TCP</span> <span class="n">db</span><span class="o">.</span><span class="n">sdwan</span><span class="p">:</span><span class="mi">51404</span><span class="o">-&gt;</span><span class="n">db</span><span class="o">.</span><span class="n">sdwan</span><span class="p">:</span><span class="mi">37017</span> <span class="p">(</span><span class="n">ESTABLISHED</span><span class="p">)</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>   <span class="mi">13</span><span class="n">u</span>  <span class="n">IPv4</span>           <span class="mi">30719610</span>      <span class="mi">0</span><span class="n">t0</span>      <span class="n">TCP</span> <span class="n">db</span><span class="o">.</span><span class="n">sdwan</span><span class="p">:</span><span class="mi">47124</span><span class="o">-&gt;</span><span class="n">db</span><span class="o">.</span><span class="n">sdwan</span><span class="p">:</span><span class="mi">27017</span> <span class="p">(</span><span class="n">ESTABLISHED</span><span class="p">)</span>
+<span class="n">python</span>  <span class="mi">27678</span> <span class="n">root</span>   <span class="mi">14</span><span class="n">r</span>  <span class="n">FIFO</span>                <span class="mi">0</span><span class="p">,</span><span class="mi">8</span>      <span class="mi">0</span><span class="n">t0</span> <span class="mi">38483750</span> <span class="n">pipe</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>参考<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<p>如何区分进程和线程ps -eLf：https://www.cnblogs.com/shengulong/p/11498437.html</p>
+<p>如何查询一个进程下面的线程数（进程和线程区别）：https://www.cnblogs.com/kevingrace/p/5252919.html</p>
+<p>用strace查找进程卡死原因：https://blog.csdn.net/peng314899581/article/details/79064616</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="项目实战05大客户定制相关技术.html" class="btn btn-neutral float-left" title="项目实战05大客户定制相关技术" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2021, yuanjh.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

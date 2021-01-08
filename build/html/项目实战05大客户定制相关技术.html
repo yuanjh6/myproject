@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>项目实战05大客户定制相关技术 &mdash; 我的项目 v1.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="项目实战07线上问题定位之自上而下" href="项目实战07线上问题定位之自上而下.html" />
+    <link rel="prev" title="项目实战04请求幂等性" href="项目实战04请求幂等性.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> 我的项目
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="项目实战01网上交易和网站.html">项目实战01网上交易和网站</a></li>
+<li class="toctree-l1"><a class="reference internal" href="项目实战02微信支付宝服务号对接.html">项目实战02微信支付宝服务号对接</a></li>
+<li class="toctree-l1"><a class="reference internal" href="项目实战03第三方接口对接之注意事项.html">项目实战03第三方接口对接之注意事项</a></li>
+<li class="toctree-l1"><a class="reference internal" href="项目实战04请求幂等性.html">项目实战04请求幂等性</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">项目实战05大客户定制相关技术</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">公版</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">整体架构</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">事务机制</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tenantid">数据隔离，tenantid列</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">用户的建立</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">催收续费</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ab">AB环境升级</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rabbitmq">解耦和异步rabbitMq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#redis">低频更新缓存redis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">看板优化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">面临问题</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">定制版</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id10">特性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">可解决哪些问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">引入新问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">无法解决问题</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">未来前景</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="项目实战07线上问题定位之自上而下.html">项目实战07线上问题定位之自上而下</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">我的项目</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>项目实战05大客户定制相关技术</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/项目实战05大客户定制相关技术.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>项目实战05大客户定制相关技术<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>基于公版，对我司大客户进行定制版本的相关开发。</p>
+<div class="section" id="id2">
+<h2>公版<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id3">
+<h3>整体架构<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<p>微服务spring cloud，抄来的图如下，大多数采用spring cloud的都是这个套路。</p>
+<p>![  ](_v_images/20201214234001836_723044133.png =641x)</p>
+</div>
+<div class="section" id="id4">
+<h3>事务机制<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<p>二级事务处理，成功or回滚。</p>
+</div>
+<div class="section" id="tenantid">
+<h3>数据隔离，tenantid列<a class="headerlink" href="#tenantid" title="永久链接至标题">¶</a></h3>
+<p>优点：所有租户使用同一套数据库，成本低。开发也容易，各查询添加一个条件字段即可。</p>
+<p>缺点：隔离级别低，安全性差，数据备份和恢复最困难。</p>
+<p>采用tenant租户id字段进行数据隔离，所有租户数据混合一起，会导致个别租户数据过大会导致所有租户查询速度有受到影响。数据批量更新时也需要格外注意，避免误操作其他tenant的数据。</p>
+<p>其实mybatis有现成的租户隔离插件，MyBatis-Plus，由于历史原因，当时已经积重难返了，只能拿不完美的先用着了。</p>
+</div>
+<div class="section" id="id5">
+<h3>用户的建立<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<p>通过付费，后台建立超级管理员账户，然后密码交给租户（具体到人，比如老板或负责对接实施的管理人员）修改重置，重置后租户可以通过超级管理员，建立其他用户（普通工人，仓库管理员，采购人员等具体角色），设置用户名，初始密码等。建立后，用户可以通过用户名密码登录，查看到自己公司的相关订单，生产单等信息（和用户全新和角色有关）。</p>
+<p>由于我们是按照端口付费的，所以对新建用户数量是有限制的。</p>
+</div>
+<div class="section" id="id6">
+<h3>催收续费<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<p>按月定时任务扫数据库，生成邮件通知市场负责人，市场负责人通知具体公司对接人进行续费。</p>
+</div>
+<div class="section" id="ab">
+<h3>AB环境升级<a class="headerlink" href="#ab" title="永久链接至标题">¶</a></h3>
+<p>由于是微服务架构，所以升级时采用分组升级，一组看做A组，另一组看做B组。对A组做update时，nginx打到B组上，对B组升级时，nginx再打回到A组上。当然这是不涉及数据库变更的情况下。</p>
+<p>如果牵涉数据库变更，由于数据库是共享的（同一个功能的AB组都使用了1个数据库），所以只能做短暂停机，一般情况数据库的变更都是提前导出部分数据做升级验证，确保所有数据都是可更新的，无遗漏的情况。</p>
+<p>如果遇到意外（常在河边走，必然会湿鞋），可以采用提前的备份库顶上，回滚代码的升级。此次升级先暂停，后续再排查原因。不可能让用户一直等着研发调bug，除非小问题。</p>
+</div>
+<div class="section" id="rabbitmq">
+<h3>解耦和异步rabbitMq<a class="headerlink" href="#rabbitmq" title="永久链接至标题">¶</a></h3>
+<p>场景:当库存变动时或库存配发到车间仓库时，会触发<strong>一系列的通知和生产单流转过程变量</strong>的更新操作。</p>
+<p>这部分操作，从变更内容来讲，是必须要完成的（产品业务逻辑定义的）。但是从任务优先级和紧急度来看，既不优先也不紧急(意味着，即使未通知到，或未重新计算相关变量，也不会导致业务流转出错，只是降低了用户体验而已）。</p>
+<p>如果一个接口中这种操作，<strong>占用了较多的处理时间</strong>，则需要做拆分。将任务push到消息队列中，然后交给另一个server从消息队列取得任务，然后更新表以及缓存等。</p>
+</div>
+<div class="section" id="redis">
+<h3>低频更新缓存redis<a class="headerlink" href="#redis" title="永久链接至标题">¶</a></h3>
+<p>redis更多用来当做缓存使用，保存低频的变更信息，比如各租户的底层功能开关。访问频繁但变更频率低，可以看做多db层的加速。</p>
+<p>这种数据更新后会自动触发redis的刷新，没有更新不会主动刷新。</p>
+<p>用到才会查询=》入缓存，也不需要预热</p>
+</div>
+<div class="section" id="id7">
+<h3>看板优化<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<p>看板数据的慢查询部分从redis中加载，redis中定时刷新，等价于将慢查询或复杂计算和页面展示异步化。</p>
+<p>缺点：降低实时性</p>
+<p>优点：提高页面刷新速度，提升用户体验。</p>
+</div>
+<div class="section" id="id8">
+<h3>面临问题<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<p><strong>大租户拖慢小租户</strong>：本质原因是共享了同一个数据表，表数据过大不可避免导致查询速度下降</p>
+<p>解决方案：微服务可以将数据打散，降低单个数据库负载，但是单表则无法降低，可以采用主从+读写分离进行优化，从服务器可采用多个服务器，这样可降低查询负载。</p>
+<p><strong>更新矛盾</strong>：有些工厂坚持旧版好用，坚持用旧版，不接受新版</p>
+<p>大多数坚持旧版客户，其实只是用不习惯新版而已。昨天能点的按钮今天找不到了。所以这更多是沟通问题，需要产品部门出升级文档，阐述这次迭代升级内容以及原有旧版的功能映射等关系，方便用户理解。</p>
+<p>这方面也反向产品部门需求 的合理性，我们就开发了很多功能，客户升级后感觉反而难用了，就是产品部门没有把握好用户需求，凭感觉提需求。</p>
+<p><strong>功能开关</strong>：有些简单的功能开关会导致后台复杂度急剧提升，甚至需要填充额外数据信息。</p>
+<p>解决方式：功能开关更多的负责控制展示逻辑（展示不展示，展示哪些，展示顺序），不负责对内部执行逻辑的过多切入。这种变更长期会导致系统数据混乱，不论是对客户还是服务提供商都是非常危险的。</p>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>定制版<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id10">
+<h3>特性<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
+<p>独立代码分支，独立机器，独立数据库，独立域名等</p>
+</div>
+<div class="section" id="id11">
+<h3>可解决哪些问题<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
+<p><strong>个性需求</strong>，比如计价工资核算等严格来说不属于MES或ERP范畴，但是由于系统内部有报工信息，所以可以实现对计价工资的支持，一些复杂的工种区分，计件的阶梯计工资等。</p>
+<p><strong>公司的审计需求</strong>，部分公司是科创板上市公司，对公司经营数据有一定的安全性要求。像订单，采购单，生产单，生产计划等，对制造业来讲还是比较重要和私密的数据。如果放到公版，会有一定安全风险。毕竟对小公司而言，是没有专业的信息安全部门的，对普通软件研发而言，安全领域还是比较陌生的。</p>
+<p><strong>公司独立域名</strong>，独立部署可以实现挂到公司独立域名下，不使用saas公共域名，看起来可能更正规些。</p>
+</div>
+<div class="section" id="id12">
+<h3>引入新问题<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h3>
+<p>共版的这个功能我们也要，反正你们有现成的，不用付钱吧</p>
+<p>长期分离导致代码差异大，并且新功能需要补充新数据进行支撑。简单来说(产品)妥协一时爽，研发火葬场。</p>
+</div>
+<div class="section" id="id13">
+<h3>无法解决问题<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h3>
+<p>定制化最大问题在于高成本，这个对客户存在，对于研发方依然存在，由于无法公用，导致客户感觉单价高，而对于研发而言，研发成本由于无法多家摊平，而本身研发人员费用相对较高，所以利润空间有限。</p>
+</div>
+</div>
+<div class="section" id="id14">
+<h2>未来前景<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h2>
+<p>saas整体前景还是比较悲观的，这方面可参考前辈姜孝鹏的经历，如果这种saas资深前辈都无法获得成功，那么其他saas前景可想而知。巨头扶持的比如钉钉目前尚且处于亏损状态，这可是顶级流量支持+大公司背书的saas。所以，难度可想而知。</p>
+<p>个人感觉，国内的浅层客户一般不愿意付费（毕竟人手一份的windows都大多盗版）。深层的客户大多都需要定制，一旦定制saas本身的成本优势就没了，如果没有很大价格优势，人家当然更愿意自研。</p>
+<p>至少就个人经验，续费率很惨，而新客户销售提成占比较高，获客成本太高。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="项目实战07线上问题定位之自上而下.html" class="btn btn-neutral float-right" title="项目实战07线上问题定位之自上而下" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="项目实战04请求幂等性.html" class="btn btn-neutral float-left" title="项目实战04请求幂等性" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2021, yuanjh.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
